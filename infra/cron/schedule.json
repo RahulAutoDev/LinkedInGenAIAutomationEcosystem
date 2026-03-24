@@ -1,0 +1,16 @@
+{
+  "schedules": [
+    {
+      "name": "daily_content_cycle",
+      "cron": "0 0 * * *",
+      "description": "Trigger the full content generation pipeline at midnight daily.",
+      "command": "python scripts/run_daily_cycle.py"
+    },
+    {
+      "name": "analytics_ingestion",
+      "cron": "0 18 * * *",
+      "description": "Pull engagement metrics from LinkedIn API at 6 PM.",
+      "command": "python scripts/backfill_history.py"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+name: LinkedIn GenAI CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+        continue-on-error: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install fastapi uvicorn requests
+
+      - name: Python lint
+        run: python -m py_compile apps/api/main.py
+
+  docker-build:
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build API container
+        run: docker build -f infra/docker/Dockerfile.api -t linkedin-genai-api .
+
+      - name: Build Worker container
+        run: docker build -f infra/docker/Dockerfile.worker -t linkedin-genai-worker .
