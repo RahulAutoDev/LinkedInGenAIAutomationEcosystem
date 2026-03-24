@@ -1,0 +1,57 @@
+# ─── Environment & Secrets ───
+.env
+.env.local
+.env.production
+.env.*.local
+
+# ─── API Keys & Credentials ───
+*.pem
+*.key
+*.cert
+*.p12
+
+# ─── Node.js ───
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── Python ───
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# ─── Audit Logs (sensitive operational data) ───
+data/audit_log.json
+
+# ─── Draft Content (unpublished proprietary content) ───
+data/drafts/*.json
+data/drafts/*.png
+
+# ─── Topic Embeddings (internal strategic data) ───
+data/topic_embeddings/*.json
+
+# ─── IDE & OS ───
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── Build Artifacts ───
+*.tsbuildinfo
+.next/
+out/
+
+# ─── Docker ───
+docker-compose.override.yml
+
+# ─── Misc ───
+*.log
+tmp/
+.cache/
