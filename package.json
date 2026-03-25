@@ -2,8 +2,14 @@
   "name": "linkedin-genai-monorepo",
   "version": "1.0.0",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "echo 'Run projects individually'"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1"
   }
 }

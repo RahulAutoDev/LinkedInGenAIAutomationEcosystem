@@ -90,9 +90,9 @@ def trigger_cycle(background_tasks: BackgroundTasks):
     def run_cycle(cid: str):
         active_cycles[cid]["status"] = "running"
         try:
-            # Execute the worker pipeline via subprocess
+            # Execute the CrewAI pipeline via subprocess
             result = subprocess.run(
-                ["npx", "ts-node", str(BASE_DIR / "apps" / "worker" / "index.ts")],
+                ["python", str(BASE_DIR / "apps" / "crewai" / "main.py")],
                 capture_output=True,
                 text=True,
                 timeout=300,
