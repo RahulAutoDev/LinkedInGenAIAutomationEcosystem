@@ -7,8 +7,9 @@ const envSchema = z.object({
   OPENAI_API_KEY: z.string().optional(),
   LINKEDIN_ACCESS_TOKEN: z.string().min(1, 'LinkedIn token is required').optional(),
   DATABASE_URL: z.string().url('Must be a valid Postgres URL'),
-  VECTOR_DB_URL: z.string().url('Must be a valid Vector DB URL').optional(),
-  GEMINI_MODEL: z.string().default('gemini-2.0-flash'),
+  QDRANT_URL: z.string().url('Must be a valid Qdrant Cloud URL').optional(),
+  QDRANT_API_KEY: z.string().optional(),
+  GEMINI_MODEL: z.string().default('gemini-2.5-flash-lite'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development')
 });
 

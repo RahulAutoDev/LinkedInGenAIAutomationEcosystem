@@ -13,6 +13,9 @@ class DBClient {
     if (!DBClient.instance) {
       DBClient.instance = new Pool({
         connectionString: env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false
+        }
       });
 
       // Handle generic pool errors

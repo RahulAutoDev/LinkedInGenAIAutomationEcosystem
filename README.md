@@ -1,68 +1,63 @@
 # LinkedIn GenAI Automation Ecosystem
 
-An autonomous multi-agent content engine for LinkedIn. Transforms raw topics into verified, published posts through a 6-step pipeline with Trust Boundary enforcement.
+## Overview
+An AI-powered system designed to generate, review, and publish LinkedIn content using a human-in-the-loop governance model.
+
+## Key Features
+- AI content generation using Gemini
+- Semantic deduplication using Qdrant
+- Topic ingestion via Google Sheets
+- Governance dashboard using Next.js
+- Approval workflow before publishing
+- Diagram generation (Mermaid → Image)
+- Secure OAuth integration for LinkedIn
+- Hybrid publishing (manual + assisted)
 
 ## Architecture
+Google Sheets → Worker → Supabase → Dashboard → Approval → Publish
 
-```
-Topic Selection → Drafting → Enhancement → Governance Review → Publishing → Feedback Loop
-```
+## Tech Stack
+- Next.js (Frontend + API)
+- Node.js (Worker)
+- Supabase (PostgreSQL)
+- Qdrant (Vector Database)
+- Google Gemini API
+- Google Sheets API
 
-**6 Sovereign Agents** work in concert:
-| Agent | Sovereignty Level | Role |
-|---|---|---|
-| Topic Planner | 3 (Operational) | Selects and briefs topics |
-| Post Writer | 3 (Operational) | Generates LinkedIn posts |
-| Hashtag Optimizer | 2 (Advisory) | SEO hashtag selection |
-| Diagram Generator | 3 (Operational) | Mermaid diagram creation |
-| Reviewer | 4 (Constrained) | **Governance Gate** — compliance checks |
-| Publisher | 5 (Full Sovereign) | LinkedIn API publishing (requires PASS token) |
+## Publishing Model (IMPORTANT)
+Due to LinkedIn API restrictions, this system does NOT directly publish posts using the LinkedIn API.
 
-## Quick Start
+The application does not currently have access to the `w_member_social` permission required for programmatic posting.
 
-```bash
-# 1. Copy environment variables
-cp .env.example .env
-# Fill in GEMINI_API_KEY and LINKEDIN_API_KEY
+Instead, the system uses a **human-in-the-loop publishing model**, where:
+- AI generates content
+- User reviews and approves
+- User manually publishes to LinkedIn
 
-# 2. Seed topics
-python scripts/seed_topics.py
+## Security Considerations
+- All API keys are stored in environment variables
+- No sensitive data is exposed in the frontend
+- OAuth flow is securely handled on the backend
 
-# 3. Start the API
-cd apps/api && uvicorn main:app --reload
+## Setup Instructions
+1. Clone the repository
+2. Install dependencies:
+   npm install
+3. Create .env file and configure required variables
+4. Run the application:
+   npm run dev
 
-# 4. Run a content cycle
-python scripts/run_daily_cycle.py
-```
+## Environment Variables
+- GEMINI_API_KEY
+- DATABASE_URL
+- QDRANT_API_KEY
+- GOOGLE_SHEET_ID
+- GOOGLE_APPLICATION_CREDENTIALS
+- LINKEDIN_CLIENT_ID
+- LINKEDIN_CLIENT_SECRET
 
-## Project Structure
-
-```
-LinkedIn_GenAI/
-├── .antigravity/          # Agent config layer (skills, agents, workflows)
-├── apps/
-│   ├── api/               # FastAPI backend
-│   ├── web/               # Dashboard (Next.js)
-│   └── worker/            # Pipeline orchestrator
-├── packages/
-│   ├── agents/            # 6 sovereign agents
-│   ├── integrations/      # LinkedIn, Gemini, VectorDB, Storage
-│   ├── governance/        # Dedupe, Approval, Audit Log, Policy
-│   └── shared/            # Types, constants, utilities
-├── prompts/               # LLM system prompts
-├── scripts/               # Operational scripts
-├── docs/                  # Architecture, API, workflow, compliance
-├── data/                  # Topics, embeddings, drafts, audit log
-└── infra/                 # Docker, CI/CD, cron schedules
-```
-
-## Trust Boundary
-
-> **No content is published without a PASS verdict from the Reviewer Agent.** The Publisher verifies an HMAC-signed token before executing any LinkedIn API call. This is non-negotiable.
-
-## Documentation
-
-- [Architecture](docs/architecture.md)
-- [API Contracts](docs/api.md)
-- [Workflow](docs/workflow.md)
-- [Compliance](docs/compliance.md)
+## Future Enhancements
+- LinkedIn API integration (subject to approval)
+- Automated scheduler (post every 4 days)
+- Analytics dashboard (engagement tracking)
+- Feedback loop for AI optimization
