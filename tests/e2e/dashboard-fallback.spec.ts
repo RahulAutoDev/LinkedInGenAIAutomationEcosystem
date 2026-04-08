@@ -15,7 +15,7 @@ test.describe('LinkedIn Governance Dashboard Fallback E2E', () => {
 
     // 2. Load Posts constraint (wait for items to render)
     console.log("Loading generated posts...");
-    await page.waitForSelector('text=Generated Posts');
+    await page.waitForSelector('text=Governance Ledger');
     
     // We expect the native Post Card limits to resolve out
     const cards = page.locator('.w-full.bg-white.rounded-2xl');

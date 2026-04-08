@@ -33,7 +33,7 @@ async function checkDashboard() {
 async function checkApiPosts() {
     try {
         const username = process.env.DASHBOARD_USERNAME || 'admin';
-        const password = process.env.DASHBOARD_PASSWORD || 'password123';
+        const password = process.env.DASHBOARD_PASSWORD || 'secret123';
         const basicAuth = Buffer.from(`${username}:${password}`).toString('base64');
 
         const res = await fetch('http://localhost:3000/api/posts', {

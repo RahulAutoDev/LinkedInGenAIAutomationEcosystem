@@ -32,7 +32,7 @@ export function middleware(req: NextRequest) {
 
   // 2. Simple Memory-Based Rate Limiting for API Endpoints
   if (url.pathname.startsWith('/api/')) {
-    const ip = req.headers.get('x-forwarded-for') || req.ip || '127.0.0.1';
+    const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
     const now = Date.now();
     const entry = activeIPs.get(ip);
 
